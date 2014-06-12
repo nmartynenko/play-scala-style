@@ -9,11 +9,11 @@ version := "1.3"
 
 //dependencies resolvers
 
-resolvers += "Sonatype" at "http://search.maven.org/remotecontent?filepath="
-
-resolvers += Resolver.url("Objectify Play Repository", url("http://schaloner.github.io/releases/"))(Resolver.ivyStylePatterns)
-
-resolvers += Resolver.url("Objectify Play Snapshot Repository", url("http://schaloner.github.io/snapshots/"))(Resolver.ivyStylePatterns)
+resolvers ++= Seq(
+    "Sonatype" at "http://search.maven.org/remotecontent?filepath=",
+    Resolver.url("Objectify Play Repository", url("http://schaloner.github.io/releases/"))(Resolver.ivyStylePatterns),
+    Resolver.url("Objectify Play Snapshot Repository", url("http://schaloner.github.io/snapshots/"))(Resolver.ivyStylePatterns)
+)
 
 //Scala's compiler and runtime settings
 
@@ -31,7 +31,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-slick" % "0.7.0-M1",
   "org.hsqldb" % "hsqldb" % "2.3.2",
   //security
-  "be.objectify" %% "deadbolt-scala" % "2.3.0-RC1",//TODO make sure this is in the global repo
+  "be.objectify" %% "deadbolt-scala" % "2.3.0-RC1",
   "org.mindrot" % "jbcrypt" % "0.3m",
   //enable JDBC module for the project
   jdbc,
