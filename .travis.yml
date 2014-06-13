@@ -4,6 +4,6 @@ jdk:
 - oraclejdk8
 scala:
 - 2.10.4
+#TODO doesn't work yet
+#- 2.11.1
 sbt_args: -J-XX:+CMSClassUnloadingEnabled -J-XX:+UseConcMarkSweepGC
-#workaround, while there is no 2.10 version for deadbolt-2 2.3.0-RC1 in ivy repos
-before_install: sh install-local.sh

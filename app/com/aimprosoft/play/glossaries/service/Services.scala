@@ -7,7 +7,7 @@ import com.aimprosoft.play.glossaries.service.impl.{UserServiceImpl, GlossarySer
 
 trait BaseCrudService[T] {
 
-  def getCurrentPage(startRow: Int, pageSize: Int): PageResponse[T]
+  def getCurrentPage(startRow: Int = 0, pageSize: Int = -1): PageResponse[T]
 
   def exists(glossaryId: Long): Boolean
 

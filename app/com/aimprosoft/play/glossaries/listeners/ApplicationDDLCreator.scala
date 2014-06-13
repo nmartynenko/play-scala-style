@@ -3,10 +3,12 @@ package com.aimprosoft.play.glossaries.listeners
 import com.aimprosoft.play.glossaries.persistence.{GlossaryPersistence, UserPersistence}
 import play.api.Logger
 import play.api.Play.current
-import play.api.db.slick.Config.driver.simple._
+import play.api.db.slick.Config.driver
 import play.api.db.slick.DB
 
 object ApplicationDDLCreator extends Listener{
+
+  import driver.simple._
 
   def init() {
     DB.withSession {implicit session: Session =>
@@ -28,6 +30,6 @@ object ApplicationDDLCreator extends Listener{
 
   @inline
   private def needsDdlCreation(implicit session: Session): Boolean = {
-    slickDriver.getTables.list.isEmpty
+    driver.getTables.list.isEmpty
   }
 }

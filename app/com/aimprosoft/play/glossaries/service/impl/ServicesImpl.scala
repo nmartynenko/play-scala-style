@@ -23,7 +23,7 @@ trait BaseCrudServiceImpl[T <: {val id: Option[Long]}, P <: Persistence[T, Long]
 
   def persistence: P
 
-  def getCurrentPage(startRow: Int, pageSize: Int): PageResponse[T] = readOnly {
+  def getCurrentPage(startRow: Int = 0, pageSize: Int = -1): PageResponse[T] = readOnly {
     implicit session: Session => {
       //list of entities
       val content = persistence.list(startRow, pageSize)

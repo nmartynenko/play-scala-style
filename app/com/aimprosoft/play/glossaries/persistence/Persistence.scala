@@ -12,7 +12,7 @@ trait Persistence[T, ID] {
 
   def list(implicit session: Session): Seq[T]
 
-  def list(startRow: Int = -1, pageSize: Int = -1)(implicit session: Session): Seq[T]
+  def list(startRow: Int = 0, pageSize: Int = -1)(implicit session: Session): Seq[T]
 
   def insert(entity: T)(implicit session: Session): ID
 
@@ -57,7 +57,7 @@ abstract class SlickBasePersistence[T <: {val id: Option[ID]}, ID: BaseColumnTyp
     list(-1, -1)
   }
 
-  def list(startRow: Int, pageSize: Int)(implicit session: Session): Seq[T] = {
+  def list(startRow: Int = 0, pageSize: Int = -1)(implicit session: Session): Seq[T] = {
     //create query for retrieving of all entities
     var q = tableQuery.map(e => e)
 
