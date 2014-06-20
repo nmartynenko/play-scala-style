@@ -4,12 +4,13 @@ import be.objectify.deadbolt.core.models.Role
 import com.aimprosoft.play.glossaries.domain.PageResponse
 import com.aimprosoft.play.glossaries.models.{User, Glossary}
 import com.aimprosoft.play.glossaries.service.impl.{UserServiceImpl, GlossaryServiceImpl}
+import scala.language.reflectiveCalls
 
 trait BaseCrudService[T <: {def id: Option[ID]}, ID] {
 
   def getCurrentPage(startRow: Int = 0, pageSize: Int = -1): PageResponse[T]
 
-  def exists(glossaryId: Long): Boolean
+  def exists(id: ID): Boolean
 
   def count: Int
 

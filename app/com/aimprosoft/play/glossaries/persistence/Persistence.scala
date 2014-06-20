@@ -4,7 +4,7 @@ import scala.slick.jdbc.JdbcBackend
 import scala.language.reflectiveCalls
 
 //abstract persistence trait
-trait Persistence[T, ID] {
+trait Persistence[T <: {def id: Option[ID]}, ID] {
 
   def exists(id: ID)(implicit session: JdbcBackend#Session): Boolean
 

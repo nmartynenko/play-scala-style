@@ -40,7 +40,7 @@ trait BaseCrudServiceImpl[T <: {val id: Option[ID]}, ID] extends BaseCrudService
       }
 
       //adjust start row
-      val sr = if (startRow < 0) 0 else startRow
+      val sr = startRow max 0
       //adjust page size
       val ps = if (pageSize > 0) pageSize else te
 

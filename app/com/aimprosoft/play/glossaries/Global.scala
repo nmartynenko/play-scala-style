@@ -5,7 +5,8 @@ import com.aimprosoft.play.glossaries.mapper.ErrorResponses._
 import org.reflections.Reflections
 import play.api.mvc.Results._
 import play.api.mvc._
-import play.api.{Logger, Application, GlobalSettings}
+import play.api.{Application, GlobalSettings, Logger}
+
 import scala.concurrent.Future
 
 object Global extends GlobalSettings{
@@ -13,9 +14,7 @@ object Global extends GlobalSettings{
   override def onStart(app: Application): Unit = {
     Logger.info("Pre-fill some data")
 
-    scanListeners foreach {
-      _.init()
-    }
+    scanListeners foreach { _.init() }
 
     Logger.info("Initialization has ended")
   }
@@ -32,6 +31,7 @@ object Global extends GlobalSettings{
       val obj = runtimeMirror.reflectModule(module)
 
       obj.instance.asInstanceOf[Listener]
+
     } sortWith {_.order < _.order}
   }
 

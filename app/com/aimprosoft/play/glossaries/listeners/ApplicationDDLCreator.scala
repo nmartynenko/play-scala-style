@@ -1,6 +1,6 @@
 package com.aimprosoft.play.glossaries.listeners
 
-import com.aimprosoft.play.glossaries.persistence.impl.{UserPersistence, GlossaryPersistence}
+import com.aimprosoft.play.glossaries.persistence.impl.{GlossaryPersistence, UserPersistence}
 import play.api.Logger
 import play.api.Play.current
 import play.api.db.slick.Config.driver
@@ -11,7 +11,7 @@ object ApplicationDDLCreator extends Listener{
   import driver.simple._
 
   //it has to be at first place
-  override def order: Int = Int.MinValue
+  override def order: Int = Listener.HIGHEST_PRECEDENCE
 
   def init() {
     DB.withSession {implicit session: Session =>
