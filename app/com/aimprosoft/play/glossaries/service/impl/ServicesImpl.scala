@@ -3,7 +3,8 @@ package com.aimprosoft.play.glossaries.service.impl
 import be.objectify.deadbolt.core.models.Role
 import com.aimprosoft.play.glossaries.domain.PageResponse
 import com.aimprosoft.play.glossaries.models.{User, Glossary}
-import com.aimprosoft.play.glossaries.persistence._
+import com.aimprosoft.play.glossaries.persistence.Persistence
+import com.aimprosoft.play.glossaries.persistence.impl.{UserPersistence, GlossaryPersistence}
 import com.aimprosoft.play.glossaries.service._
 import org.mindrot.jbcrypt.BCrypt
 import play.api.Play.current
@@ -18,10 +19,10 @@ trait SlickTransactional {
 
 }
 
-trait BaseCrudServiceImpl[T <: {val id: Option[Long]}, P <: Persistence[T, Long]] extends BaseCrudService[T]
+trait BaseCrudServiceImpl[T <: {val id: Option[ID]}, ID] extends BaseCrudService[T, ID]
   with SlickTransactional{
 
-  def persistence: P
+  def persistence: Persistence[T, ID]
 
   def getCurrentPage(startRow: Int = 0, pageSize: Int = -1): PageResponse[T] = readOnly {
     implicit session: Session => {
@@ -48,7 +49,7 @@ trait BaseCrudServiceImpl[T <: {val id: Option[Long]}, P <: Persistence[T, Long]
   }
 
 
-  def exists(id: Long): Boolean = readOnly {
+  def exists(id: ID): Boolean = readOnly {
     implicit session: Session =>
       persistence.exists(id)
   }
@@ -63,7 +64,7 @@ trait BaseCrudServiceImpl[T <: {val id: Option[Long]}, P <: Persistence[T, Long]
       persistence.list(0, 1).headOption
   }
 
-  def getById(id: Long): Option[T] = readOnly {
+  def getById(id: ID): Option[T] = readOnly {
     implicit session: Session =>
       persistence.get(id)
   }
@@ -82,7 +83,7 @@ trait BaseCrudServiceImpl[T <: {val id: Option[Long]}, P <: Persistence[T, Long]
     removeById(id)
   }
 
-  def removeById(id: Long): Unit = transactional {
+  def removeById(id: ID): Unit = transactional {
     implicit session: Session =>
       persistence.delete(id)
   }
@@ -90,12 +91,12 @@ trait BaseCrudServiceImpl[T <: {val id: Option[Long]}, P <: Persistence[T, Long]
 }
 
 class GlossaryServiceImpl extends GlossaryService
-  with BaseCrudServiceImpl[Glossary, GlossaryPersistence] {
+  with BaseCrudServiceImpl[Glossary, Long] {
   def persistence = GlossaryPersistence
 }
 
 class UserServiceImpl extends UserService
-  with BaseCrudServiceImpl[User, UserPersistence] {
+  with BaseCrudServiceImpl[User, Long] {
 
   def persistence = UserPersistence
 
@@ -108,11 +109,11 @@ class UserServiceImpl extends UserService
 
   def getByEmail(email: String): Option[User] = transactional {
     implicit session: Session =>
-      UserPersistence.findByEmail(email)
+      persistence.findByEmail(email)
   }
 
-  override def countByRole(role: Role): Long = readOnly {
+  def countByRole(role: Role): Int = readOnly {
     implicit session: Session =>
-      UserPersistence.countByRole(role.getName)
+      persistence.countByRole(role.getName)
   }
 }

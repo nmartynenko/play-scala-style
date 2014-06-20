@@ -22,7 +22,11 @@ scalaVersion := "2.10.4"
 //TODO doesn't work yet
 //crossScalaVersions := Seq("2.10.4", "2.11.1")
 
-scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation")
+scalacOptions ++= Seq(
+  "-feature",
+  "-unchecked",
+  "-deprecation"
+)
 
 //dependencies settings
 

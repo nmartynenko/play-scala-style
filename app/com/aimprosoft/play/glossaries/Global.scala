@@ -2,6 +2,7 @@ package com.aimprosoft.play.glossaries
 
 import com.aimprosoft.play.glossaries.listeners._
 import com.aimprosoft.play.glossaries.mapper.ErrorResponses._
+import org.reflections.Reflections
 import play.api.mvc.Results._
 import play.api.mvc._
 import play.api.{Logger, Application, GlobalSettings}
@@ -12,14 +13,26 @@ object Global extends GlobalSettings{
   override def onStart(app: Application): Unit = {
     Logger.info("Pre-fill some data")
 
-    //it might be better to improve scanning
-    val listeners = List(ApplicationDDLCreator, CreateAdminListener, CreateUserListener, CreateGlossaryDataListener)
-
-    listeners foreach {
+    scanListeners foreach {
       _.init()
     }
 
     Logger.info("Initialization has ended")
+  }
+
+  private def scanListeners: Iterable[Listener] = {
+    import scala.collection.JavaConversions._
+    import scala.reflect.runtime.universe
+
+    val runtimeMirror = universe.runtimeMirror(this.getClass.getClassLoader)
+
+    new Reflections(this.getClass.getPackage.getName).getSubTypesOf(classOf[Listener]).toList map { clazz =>
+      val module = runtimeMirror.staticModule(clazz.getName)
+
+      val obj = runtimeMirror.reflectModule(module)
+
+      obj.instance.asInstanceOf[Listener]
+    } sortWith {_.order < _.order}
   }
 
   override def onHandlerNotFound(request: RequestHeader): Future[Result] = {

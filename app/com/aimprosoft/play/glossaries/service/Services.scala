@@ -5,7 +5,7 @@ import com.aimprosoft.play.glossaries.domain.PageResponse
 import com.aimprosoft.play.glossaries.models.{User, Glossary}
 import com.aimprosoft.play.glossaries.service.impl.{UserServiceImpl, GlossaryServiceImpl}
 
-trait BaseCrudService[T] {
+trait BaseCrudService[T <: {def id: Option[ID]}, ID] {
 
   def getCurrentPage(startRow: Int = 0, pageSize: Int = -1): PageResponse[T]
 
@@ -15,24 +15,24 @@ trait BaseCrudService[T] {
 
   def getFirst: Option[T]
 
-  def getById(glossaryId: Long): Option[T]
+  def getById(id: ID): Option[T]
 
-  def add(glossary: T): Unit
+  def add(entity: T): Unit
 
-  def update(glossary: T): Unit
+  def update(entity: T): Unit
 
-  def remove(glossary: T): Unit
+  def remove(entity: T): Unit
 
-  def removeById(glossaryId: Long): Unit
+  def removeById(id: ID): Unit
 }
 
-trait GlossaryService extends BaseCrudService[Glossary]
+trait GlossaryService extends BaseCrudService[Glossary, Long]
 
-trait UserService extends BaseCrudService[User]{
+trait UserService extends BaseCrudService[User, Long]{
 
   def getByEmail(username: String): Option[User]
 
-  def countByRole(role: Role): Long
+  def countByRole(role: Role): Int
 
 }
 

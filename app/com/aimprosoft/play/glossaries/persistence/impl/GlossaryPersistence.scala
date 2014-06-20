@@ -1,13 +1,18 @@
-package com.aimprosoft.play.glossaries.persistence
+package com.aimprosoft.play.glossaries.persistence.impl
 
+import com.aimprosoft.play.glossaries.models.{Glossary, User}
+import com.aimprosoft.play.glossaries.persistence.Persistence
 import play.api.db.slick.Config.driver.simple._
-import com.aimprosoft.play.glossaries.models.{User, Glossary}
 
 //application DAO
 trait GlossaryPersistence extends Persistence[Glossary, Long]
 
 trait UserPersistence extends Persistence[User, Long] {
+
   def findByEmail(email: String)(implicit session: Session): Option[User]
+
+  def countByRole(role: String)(implicit session: Session): Int
+
 }
 
 //application DAO objects
@@ -44,7 +49,7 @@ class SlickUsers(tag: Tag) extends SlickBaseTable[User, Long](tag, "glossary_use
 }
 
 //concrete persistence services
-class SlickUsersPersistence extends SlickBasePersistence[User, Long, SlickUsers]
+class SlickUsersPersistence extends SlickBasePersistence[User, Long]
   with UserPersistence{
 
   //Macro expansion implementation
@@ -54,13 +59,13 @@ class SlickUsersPersistence extends SlickBasePersistence[User, Long, SlickUsers]
     tableQuery.filter(_.email === email).firstOption
   }
 
-  def countByRole(role: String)(implicit session: Session): Long = {
+  def countByRole(role: String)(implicit session: Session): Int = {
     tableQuery.filter(_.role === role).length.run
   }
 
 }
 
-class SlickGlossariesPersistence extends SlickBasePersistence[Glossary, Long, SlickGlossaries]
+class SlickGlossariesPersistence extends SlickBasePersistence[Glossary, Long]
   with GlossaryPersistence {
 
   //Macro expansion implementation
