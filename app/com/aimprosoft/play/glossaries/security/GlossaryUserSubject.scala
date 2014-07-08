@@ -14,7 +14,7 @@ class GlossaryUserSubject(val user: User) extends Subject with Serializable{
 
   def getRoles: util.List[_ <: Role] = roles
 
-  def getPermissions: util.List[_ <: Permission] = util.Collections.emptyList()
+  def getPermissions: util.List[_ <: Permission] = util.Collections.emptyList
 
   def getIdentifier: String = user.email
 

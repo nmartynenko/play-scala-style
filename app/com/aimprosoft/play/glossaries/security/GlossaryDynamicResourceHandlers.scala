@@ -22,15 +22,11 @@ object AllowAllDynamicResourceHandler extends AllowAllDynamicResourceHandler
 object RoleBasedDynamicResourceHandler extends RejectAllDynamicResourceHandler {
 
   //Java2Scala conversions and vice versa
-
   import scala.collection.JavaConversions._
 
   override def isAllowed[A](name: String, meta: String, deadboltHandler: DeadboltHandler, request: Request[A]): Boolean = {
-    deadboltHandler.getSubject(request) match {
-      case None =>
-        false
-      case Some(subject) =>
-        subject.getRoles exists {
+    deadboltHandler.getSubject(request).fold(false) {
+        _.getRoles exists {
           _.getName == name.toLowerCase
         }
     }
@@ -39,8 +35,8 @@ object RoleBasedDynamicResourceHandler extends RejectAllDynamicResourceHandler {
 
 object GlossaryDynamicResourceHandler extends RejectAllDynamicResourceHandler {
 
-  private val handlers: Map[String, DynamicResourceHandler] =
-    Map(
+  private val handlers: Map[String, DynamicResourceHandler] = Map(
+
       "user" -> RoleBasedDynamicResourceHandler,
 
       "admin" -> RoleBasedDynamicResourceHandler

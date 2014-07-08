@@ -62,11 +62,8 @@ object ErrorHandlerProcessor {
 
     handlerOption match {
       case Some(handler: ErrorHandler[Throwable]) =>
-        handler.handleError(ex, request) match {
-          case Some(result) =>
-            Some(Future.successful(result))
-          case _ =>
-            None
+        handler.handleError(ex, request) map { result =>
+            Future.successful(result)
         }
       case _ =>
         None

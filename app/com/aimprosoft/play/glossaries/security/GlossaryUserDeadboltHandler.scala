@@ -11,16 +11,12 @@ import scala.concurrent.Future
 
 trait GlossaryUserDeadboltHandler extends DeadboltHandler {
 
-  protected val redirect: Result
-
   protected val handlerOption = Some(GlossaryDynamicResourceHandler)
 
   def getSubject[A](request: Request[A]): Option[Subject] = {
     //get username from session
-    request.session.get(Security.username) match {
-      case None =>
-        None
-      case Some(username) =>
+    request.session.get(Security.username) flatMap {username =>
+
         val fromCache = Cache.getAs[Subject](username)
 
         Logger.debug(s"Getting value for $username, and it returns $fromCache")
@@ -29,18 +25,14 @@ trait GlossaryUserDeadboltHandler extends DeadboltHandler {
     }
   }
 
-  def onAuthFailure[A](request: Request[A]): Future[Result] = Future.successful {
-    Forbidden
-  }
+  def onAuthFailure[A](request: Request[A]): Future[Result] = Future.successful(Forbidden)
 
-  def getDynamicResourceHandler[A](request: Request[A]): Option[DynamicResourceHandler] = {
-    handlerOption
-  }
+  def getDynamicResourceHandler[A](request: Request[A]): Option[DynamicResourceHandler] = handlerOption
 }
 
 object SubjectPresentGlossaryUserDeadboltHandler extends GlossaryUserDeadboltHandler{
 
-  protected val redirect: Result = Redirect("/login.html")
+  private val redirect: Result = Redirect("/login.html")
 
   def beforeAuthCheck[A](request: Request[A]): Option[Future[Result]] = {
     getSubject(request) match {
@@ -56,15 +48,12 @@ object SubjectPresentGlossaryUserDeadboltHandler extends GlossaryUserDeadboltHan
 
 object SubjectNotPresentGlossaryUserDeadboltHandler extends GlossaryUserDeadboltHandler{
 
-  protected val redirect: Result = Redirect("/index.html")
+  private val redirect: Result = Redirect("/index.html")
 
   def beforeAuthCheck[A](request: Request[A]): Option[Future[Result]] = {
-    getSubject(request) match {
-      case None =>
-        None
-      case _ =>
-        //redirect to home page if there is no subject
-        Some(Future.successful(redirect))
+    getSubject(request) map { _ =>
+        //redirect to home page if there is a subject
+        Future.successful(redirect)
     }
   }
 
