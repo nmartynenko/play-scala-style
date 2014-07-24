@@ -32,7 +32,7 @@ object Global extends GlobalSettings{
 
       obj.instance.asInstanceOf[Listener]
 
-    } sortWith {_.order < _.order}
+    } sortBy {_.order}
   }
 
   override def onHandlerNotFound(request: RequestHeader): Future[Result] = {

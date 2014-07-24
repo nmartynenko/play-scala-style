@@ -33,6 +33,6 @@ object ApplicationDDLCreator extends Listener{
 
   @inline
   private def needsDdlCreation(implicit session: Session): Boolean = {
-    driver.getTables.list.isEmpty
+    driver.defaultTables.isEmpty
   }
 }

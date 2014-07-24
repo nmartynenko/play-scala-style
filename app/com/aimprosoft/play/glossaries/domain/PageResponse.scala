@@ -3,7 +3,7 @@ package com.aimprosoft.play.glossaries.domain
 import com.aimprosoft.play.glossaries.models.Glossary
 
 //domain generic class for pageable requests
-class PageResponse[T](val content: Seq[T],
+class PageResponse[+T](val content: Seq[T],
                       val startRow: Int = 0,
                       val pageSize: Int = -1,
                       val totalElements: Int)

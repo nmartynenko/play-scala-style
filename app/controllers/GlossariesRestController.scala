@@ -19,7 +19,12 @@ object GlossariesRestController extends SecuredController {
       //get generic page
       val page = GlossaryService.getCurrentPage(startRow, pageSize)
       //convert into concrete response page
-      val glossariesPage = GlossaryPageResponse(page.content, page.startRow, page.pageSize, page.totalElements)
+      val glossariesPage = GlossaryPageResponse(
+        content = page.content,
+        startRow = page.startRow,
+        pageSize = page.pageSize,
+        totalElements = page.totalElements
+      )
 
       Ok(Json.toJson(glossariesPage)).as(ContentTypes.JSON)
     }

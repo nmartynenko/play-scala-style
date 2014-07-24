@@ -33,11 +33,11 @@ libraryDependencies ++= Seq(
   //test dependencies
   "junit" % "junit" % "4.11" % "test",
   //runtime dependencies
-  "com.typesafe.slick" %% "slick" % "2.1.0-M2",
-  "com.typesafe.play" %% "play-slick" % "0.8.0-M1",
+  "com.typesafe.slick" %% "slick" % "2.1.0-RC2",
+  "com.typesafe.play" %% "play-slick" % "0.8.0-RC2",
   "org.hsqldb" % "hsqldb" % "2.3.2",
   //security
-  "be.objectify" %% "deadbolt-scala" % "2.3.0-RC1",
+  "be.objectify" %% "deadbolt-scala" % "2.3.1",
   "org.mindrot" % "jbcrypt" % "0.3m",
   //enable JDBC module for the project
   jdbc,
