@@ -24,7 +24,9 @@ crossScalaVersions := Seq("2.10.4", "2.11.2")
 scalacOptions ++= Seq(
   "-feature",
   "-unchecked",
-  "-deprecation"
+  "-deprecation",
+  //show style warnings
+  "-Xlint"
 )
 
 //dependencies settings

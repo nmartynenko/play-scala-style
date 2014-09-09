@@ -12,16 +12,13 @@ abstract class SlickBaseTable[T, ID](tag: Tag, tableName: String) extends Table[
 abstract class SlickBasePersistence[T <: {val id: Option[ID]}, ID: BaseColumnType]
   extends Persistence[T, ID] {
 
-  //shortcut for convenience
-  type TQ = SlickBaseTable[T, ID]
-
   //Macro expansion value
-  val tableQuery: TableQuery[_ <: TQ] /* = TableQuery[TQ] */
+  val tableQuery: TableQuery[_ <: SlickBaseTable[T, ID]] /* = TableQuery[TQ] */
 
   //helper methods
-  def byId(id: ID)(implicit session: Session): Query[TQ, TQ#TableElementType, Seq] = tableQuery.filter(_.id === id)
+  def byId(id: ID)(implicit session: Session): Query[_ <: SlickBaseTable[T, ID], T, Seq] = tableQuery.filter(_.id === id)
 
-  def byId(idOpt: Option[ID])(implicit session: Session): Query[TQ, TQ#TableElementType, Seq] = {
+  def byId(idOpt: Option[ID])(implicit session: Session): Query[_ <: SlickBaseTable[T, ID], T, Seq] = {
     idOpt map {id => byId(id)} getOrElse {
       throw new IllegalArgumentException("ID option should not be None")
     }

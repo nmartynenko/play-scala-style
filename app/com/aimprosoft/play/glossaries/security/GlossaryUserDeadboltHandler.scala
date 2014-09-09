@@ -35,12 +35,12 @@ object SubjectPresentGlossaryUserDeadboltHandler extends GlossaryUserDeadboltHan
   private val redirect: Result = Redirect("/login.html")
 
   def beforeAuthCheck[A](request: Request[A]): Option[Future[Result]] = {
-    getSubject(request) match {
-      case None =>
-        //redirect to login page if there is no subject
-        Some(Future.successful(redirect))
-      case _ =>
-        None
+    //do nothing, if subject is defined
+    if (getSubject(request).isDefined) {
+      None
+    } else {
+      //redirect to login page if there is no subject
+      Some(Future.successful(redirect))
     }
   }
 
