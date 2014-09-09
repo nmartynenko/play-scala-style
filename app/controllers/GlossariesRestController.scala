@@ -32,11 +32,10 @@ object GlossariesRestController extends SecuredController {
 
   def getGlossary(id: Long) = authenticated {
     Action {
-      GlossaryService.getById(id) match {
-        case Some(glossary) =>
+      GlossaryService.getById(id) map {glossary =>
           Ok(Json.toJson(glossary)).as(ContentTypes.JSON)
-        case _ =>
-          BadRequest(Messages("sample.error.glossary.not.found", id))
+      } getOrElse {
+        BadRequest(Messages("sample.error.glossary.not.found", id))
       }
     }
   }

@@ -13,13 +13,13 @@ object ApplicationDDLCreator extends Listener{
   //it has to be at first place
   override def order: Int = Listener.HIGHEST_PRECEDENCE
 
-  def init() {
+  def init(): Unit = {
     DB.withSession {implicit session: Session =>
       //check whether we need to create DDL
       if (needsDdlCreation){
         Logger.info("Start updating DDL for application")
         //perform DB schema creation
-        createDdl
+        createDdl()
 
         Logger.info("Updating DDL for application has ended")
       }
@@ -27,7 +27,7 @@ object ApplicationDDLCreator extends Listener{
   }
 
   //specific implementations
-  private def createDdl(implicit session: Session) {
+  private def createDdl()(implicit session: Session): Unit = {
     (UserPersistence.tableQuery.ddl ++ GlossaryPersistence.tableQuery.ddl).create
   }
 

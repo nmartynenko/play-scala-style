@@ -17,9 +17,9 @@ resolvers ++= Seq(
 
 //Scala's compiler and runtime settings
 
-scalaVersion := "2.11.1"
+scalaVersion := "2.11.2"
 
-crossScalaVersions := Seq("2.10.4", "2.11.1")
+crossScalaVersions := Seq("2.10.4", "2.11.2")
 
 scalacOptions ++= Seq(
   "-feature",
@@ -33,8 +33,8 @@ libraryDependencies ++= Seq(
   //test dependencies
   "junit" % "junit" % "4.11" % "test",
   //runtime dependencies
-  "com.typesafe.slick" %% "slick" % "2.1.0-RC2",
-  "com.typesafe.play" %% "play-slick" % "0.8.0-RC2",
+  "com.typesafe.slick" %% "slick" % "2.1.0",
+  "com.typesafe.play" %% "play-slick" % "0.8.0",
   "org.hsqldb" % "hsqldb" % "2.3.2",
   //security
   "be.objectify" %% "deadbolt-scala" % "2.3.1",

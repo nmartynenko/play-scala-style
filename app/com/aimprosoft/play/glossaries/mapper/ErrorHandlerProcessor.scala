@@ -31,6 +31,7 @@ class NoGlossaryFoundErrorHandler extends ErrorHandler[NoGlossaryFoundException]
  *
  * Note: currently it's not used in favor of simple pattern matching
  */
+//TODO is it possible to refactor more clearly
 object ErrorHandlerProcessor {
 
   val exactMatch: Boolean = false
@@ -60,13 +61,14 @@ object ErrorHandlerProcessor {
 
     val handlerOption = findMatch(ex.getClass)
 
-    handlerOption match {
-      case Some(handler: ErrorHandler[Throwable]) =>
-        handler.handleError(ex, request) map { result =>
-            Future.successful(result)
+    handlerOption flatMap { h =>
+      //make conversion in order to trick Scala type checker
+      val handler = h.asInstanceOf[ErrorHandler[Throwable]]
+
+      //process exception
+      handler.handleError(ex, request) map { result =>
+          Future.successful(result)
         }
-      case _ =>
-        None
     }
   }
 

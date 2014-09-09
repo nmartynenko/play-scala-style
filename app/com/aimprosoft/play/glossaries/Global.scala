@@ -1,6 +1,7 @@
 package com.aimprosoft.play.glossaries
 
 import com.aimprosoft.play.glossaries.listeners._
+import com.aimprosoft.play.glossaries.mapper.ErrorHandlerProcessor
 import com.aimprosoft.play.glossaries.mapper.ErrorResponses._
 import org.reflections.Reflections
 import play.api.mvc.Results._
@@ -43,7 +44,7 @@ object Global extends GlobalSettings{
 
     //onError original exceptions are always wrapped with Play ones
     ex.getCause match {
-      case e: Exception => handleException(e, request)
+      case e: Exception => ErrorHandlerProcessor.handleError(ex, request).get
       case _ =>
         super.onError(request, ex)
     }

@@ -7,7 +7,7 @@ import play.api.Logger
 
 object CreateUserListener extends Listener {
 
-  def init() {
+  def init(): Unit = {
     //if regular user is not present yet
     if (UserService.countByRole(UserRole) == 0) {
       Logger.info("Start adding sample user")

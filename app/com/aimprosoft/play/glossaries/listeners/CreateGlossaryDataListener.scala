@@ -35,7 +35,7 @@ object CreateGlossaryDataListener extends Listener {
     molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"""
   }
 
-  def init() {
+  def init(): Unit = {
     //it can't be too much glossaries
     Logger.info("Start adding sample glossaries")
 

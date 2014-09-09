@@ -7,7 +7,7 @@ import play.api.Logger
 
 object CreateAdminListener extends Listener{
 
-  def init() {
+  def init(): Unit = {
     //if admin is not present yet
     if (UserService.countByRole(AdminRole) == 0){
       Logger.info("Start adding sample admin")
