@@ -5,7 +5,9 @@ import PlayKeys._
 
 name := "sample-crud-play-scala-style"
 
-version := "1.4"
+description := "Sample CRUD Play: Scala Style"
+
+version := "2.0.0"
 
 //dependencies resolvers
 

@@ -1,0 +1,26 @@
+{
+    "name": "sample-crud-play-scala-style",
+    "version": "2.0.0",
+    "authors": [
+        "Nick Martynenko <n.martynenko@aimprosoft.com>"
+    ],
+    "description": "Sample CRUD Play: Scala Style",
+    "license": "MIT",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "public/javascripts/bower_components",
+        "test"
+    ],
+    "dependencies": {
+        "angular-mocks": "~1.2.23",
+        "angular-resource": "~1.2.23",
+        "angular-ui-router": "~0.2.11",
+        "bootstrap": "~3.2.0",
+        "jquery": "~2.1.1",
+        "modernizr": "~2.8.3",
+        "ng-table": "~0.3.3"
+    }
+}

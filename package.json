@@ -1,0 +1,24 @@
+{
+    "name": "sample-crud-play-scala-style",
+    "version": "2.0.0",
+    "authors": [
+        "Nick Martynenko <n.martynenko@aimprosoft.com>"
+    ],
+    "description": "Sample CRUD Play: Scala Style",
+    "license": "MIT",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "readmeFilename": "README.md",
+    "gitHead": "",
+    "devDependencies": {
+        "karma": "~0.12.23",
+        "karma-coverage": "~0.2.6",
+        "karma-firefox-launcher": "~0.1.3",
+        "karma-jasmine": "~0.1.5",
+        "karma-phantomjs-launcher": "~0.1.4"
+    }
+}

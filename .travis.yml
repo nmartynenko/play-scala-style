@@ -6,3 +6,10 @@ scala:
 - 2.10.4
 - 2.11.2
 sbt_args: -J-XX:+CMSClassUnloadingEnabled -J-XX:+UseConcMarkSweepGC
+before_script:
+  - sudo apt-get update -q
+  - sudo apt-get install npm
+before_install:
+  - npm install -g karma-cli bower
+  - npm install
+  - bower install

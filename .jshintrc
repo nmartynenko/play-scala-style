@@ -1,0 +1,9 @@
+{
+    "globalstrict": true,
+    "globals": {
+        "angular": false,
+        "jQuery": false,
+        "console": false,
+        "document": false
+    }
+}
