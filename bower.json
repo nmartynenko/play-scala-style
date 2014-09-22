@@ -15,12 +15,15 @@
         "test"
     ],
     "dependencies": {
-        "angular-mocks": "~1.2.23",
-        "angular-resource": "~1.2.23",
+        "angular-mocks": "~1.2.25",
+        "angular-resource": "~1.2.25",
         "angular-ui-router": "~0.2.11",
         "bootstrap": "~3.2.0",
         "jquery": "~2.1.1",
         "modernizr": "~2.8.3",
-        "ng-table": "~0.3.3"
+        "ng-table": "~0.3.3",
+        "requirejs": "~2.1.14",
+        "requirejs-domready": "~2.0.1",
+        "requirejs-text": "~2.0.12"
     }
 }

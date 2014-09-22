@@ -1,10 +1,14 @@
 {
     "globalstrict": true,
     "globals": {
+        "alert": false,
         "angular": false,
-        "jQuery": false,
         "console": false,
+        "define": false,
         "document": false,
-        "alert": false
+        "jQuery": false,
+        "module": false,
+        "require": false,
+        "window": true
     }
 }
