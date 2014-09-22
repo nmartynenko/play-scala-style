@@ -23,14 +23,18 @@
 
     <div id="content">
 
-        <div ng-controller="GlossariesCtrl">
-            <table ng-table="tableParams" show-filter="true" class="table">
+        <div ng-controller="GlossariesCtrl" loading-container="tableParams.settings().$loading">
+            <table ng-table="tableParams" show-filter="false" class="table">
                 <tr ng-repeat="glossary in $data">
-                    <td data-title="'@Messages("sample.message.name")'" filter="{ 'name' : 'text' }" sortable="'name'">
-                {{glossary.name}}
+                    <td data-title="'@Messages("sample.message.name")'" filter="{ 'name' : 'text' }">
+                        {{glossary.name}}
                     </td>
-                    <td data-title="'@Messages("sample.message.description")'" sortable="'description'">
-                {{glossary.description}}
+                    <td data-title="'@Messages("sample.message.description")'">
+                        {{glossary.description}}
+                    </td>
+                    <td data-title="'@Messages("sample.message.actions")'">
+                        <a href="#">@Messages("sample.message.edit")</a>
+                        <a href="#">@Messages("sample.message.delete")</a>
                     </td>
                 </tr>
             </table>

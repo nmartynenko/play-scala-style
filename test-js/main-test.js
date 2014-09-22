@@ -22,15 +22,16 @@ require.config({
     baseUrl: '/base/public/javascripts/app',
 
     paths: {
-        angular:         '/base/public/javascripts/bower_components/angular/angular',
-        angularMocks:    '/base/public/javascripts/bower_components/angular-mocks/angular-mocks',
-        angularResource: '/base/public/javascripts/bower_components/angular-resource/angular-resource',
-        angularUIRouter: '/base/public/javascripts/bower_components/angular-ui-router/release/angular-ui-router',
-        ngTable:         '/base/public/javascripts/bower_components/ng-table/ng-table',
-        bootstrap:       '/base/public/javascripts/bower_components/bootstrap/dist/js/bootstrap',
-        domReady :       '/base/public/javascripts/bower_components/requirejs-domready/domReady',
-        jquery:          '/base/public/javascripts/bower_components/jquery/dist/jquery',
-        text:            '/base/public/javascripts/bower_components/requirejs-text/text'
+        angular:            '/base/public/javascripts/bower_components/angular/angular',
+        angularMocks:       '/base/public/javascripts/bower_components/angular-mocks/angular-mocks',
+        angularResource:    '/base/public/javascripts/bower_components/angular-resource/angular-resource',
+        angularUIBootstrap: '/base/public/javascripts/bower_components/angular-ui-bootstrap-bower/ui-bootstrap',
+        angularUIRouter:    '/base/public/javascripts/bower_components/angular-ui-router/release/angular-ui-router',
+        ngTable:            '/base/public/javascripts/bower_components/ng-table/ng-table',
+        bootstrap:          '/base/public/javascripts/bower_components/bootstrap/dist/js/bootstrap',
+        domReady :          '/base/public/javascripts/bower_components/requirejs-domready/domReady',
+        jquery:             '/base/public/javascripts/bower_components/jquery/dist/jquery',
+        text:               '/base/public/javascripts/bower_components/requirejs-text/text'
     },
     shim: {
         'angular' : {
@@ -44,6 +45,11 @@ require.config({
         'angularMocks': {
             deps: [ 'angular' ],
             exports :'angular.mock'
+        },
+        'angularUIBootstrap' : {
+            deps : [
+                'angular'
+            ]
         },
         'angularUIRouter' : {
             deps : [

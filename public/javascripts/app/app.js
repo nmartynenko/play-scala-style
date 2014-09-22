@@ -7,9 +7,11 @@ define([
 	'directives',
 	'controllers',
 	'angularUIRouter',
-    'ngTable'
+    'ngTable',
+    'angularUIBootstrap'
 ], function (angular, filters, services, directives, controllers) {
     return angular.module('glossariesApp', [
+        'ui.bootstrap',
         'ui.router',
         'ngTable',
         'glossariesApp.filters',

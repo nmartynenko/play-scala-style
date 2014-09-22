@@ -5,47 +5,37 @@
 define(['angular', 'jquery', 'services'], function (angular, $) {
 
     return angular.module('glossariesApp.controllers', ['glossariesApp.services'])
-        .controller('GlossariesCtrl', function ($scope, $filter, Glossaries, ngTableParams) {
-            Glossaries.query(function(glossaries) {
-
-                //convert result in more convenient one
-                var data = glossaries.content;
-
-                $scope.tableParams = new ngTableParams({
-                    page: 1,            // show first page
-                    count: 5,           // count per page
-                    filter: {           // default filtering
-                        name : ''
-                    },
-                    sorting: {          // default sorting
-                        name: 'asc'
-                    }
-                }, {
-                    total: data.length, // length of data
-                    counts: [
-                        3, 5, 10        // pager's counts
-                    ],
-                    getData: function ($defer, params) {
-                        // use build-in angular filter
-                        // pass through filter
-                        var filteredData = params.filter() ?
-                            $filter('filter')(data, params.filter()) :
-                            data;
-
-                        // sort
-                        var orderedData = params.sorting() ?
-                            $filter('orderBy')(filteredData, params.orderBy()) :
-                            filteredData;
-
-                        $scope.users = orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count());
-
-                        // change total count after filtering
-                        params.total(orderedData.length);
-
-                        $defer.resolve($scope.users);
-                    }
-                });
+        .controller('GlossariesCtrl', function ($scope, $timeout, Glossaries, ngTableParams) {
+            $scope.tableParams = new ngTableParams({
+                page: 1,            // show first page
+                count: 3,           // count per page
+                filter: {           // default filtering
+                    name: ''
+                },
+                sorting: {          // default sorting
+                    name: 'asc'
+                }
+            }, {
+                total: 0, // length of data
+                counts: [
+                    2, 3, 5        // pager's counts
+                ],
+                getData: function ($defer, params) {
+                    Glossaries.get(
+                        {
+                            startRow: (params.page() - 1) * params.count(),
+                            pageSize: params.count()
+                        },
+                        function (data) {
+                            $timeout(function () {
+                                // update table params
+                                params.total(data.totalElements);
+                                // set new data
+                                $defer.resolve(data.content);
+                            }, 200);
+                        }
+                    );
+                }
             });
         });
-
 });
