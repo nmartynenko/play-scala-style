@@ -4,6 +4,7 @@
         "angular": false,
         "jQuery": false,
         "console": false,
-        "document": false
+        "document": false,
+        "alert": false
     }
 }

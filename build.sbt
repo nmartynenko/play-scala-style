@@ -51,3 +51,10 @@ libraryDependencies ++= Seq(
 //apply plugin settings
 
 lazy val scala_style = (project in file(".")).enablePlugins(PlayScala)
+
+lazy val karma = taskKey[Unit]("Runs Karma tests")
+
+karma := {
+  import sbt.Process._
+  "karma start conf/karma.conf.js".!
+}
