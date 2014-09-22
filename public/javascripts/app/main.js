@@ -4,7 +4,7 @@ require.config({
 	paths: {
 		angular:            '../bower_components/angular/angular',
 		angularResource:    '../bower_components/angular-resource/angular-resource',
-        angularUIBootstrap: '../bower_components/angular-ui-bootstrap-bower/ui-bootstrap',
+        angularUIBootstrap: '../bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls',
 		angularUIRouter:    '../bower_components/angular-ui-router/release/angular-ui-router',
         ngTable:            '../bower_components/ng-table/ng-table',
 	    bootstrap:          '../bower_components/bootstrap/dist/js/bootstrap',
