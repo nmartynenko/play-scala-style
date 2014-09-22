@@ -16,7 +16,7 @@ define([
         'ngTable',
         'glossariesApp.services'
     ])
-        .controller('GlossariesCtrl', function ($scope, $timeout, Glossaries, ngTableParams, $modal) {
+        .controller('GlossariesCtrl', function ($scope, $timeout, Glossary, ngTableParams, $modal) {
             $scope.tableParams = new ngTableParams({
                 page: 1,            // show first page
                 count: 3,           // count per page
@@ -32,7 +32,7 @@ define([
                     2, 3, 5        // pager's counts
                 ],
                 getData: function ($defer, params) {
-                    Glossaries.get(
+                    Glossary.query(
                         {
                             startRow: (params.page() - 1) * params.count(),
                             pageSize: params.count()
@@ -50,33 +50,48 @@ define([
             });
 
             $scope.edit = function (glossaryId) {
+                Glossary.get(
+                    {id: glossaryId},
+                    openModal
+                );
+            };
+
+            $scope.add = function(){
+                openModal({});
+            };
+
+            $scope.remove = function (glossaryId, confirmationMessage) {
+                if (confirm(confirmationMessage)){
+                    Glossary.remove(
+                        {id: glossaryId},
+                        function () {
+                            $scope.tableParams.reload();
+                        }
+                    );
+                }
+            };
+
+            var openModal = function(glossary){
                 var modalInstance = $modal.open({
                     templateUrl: 'editGlossaryForm.html',
                     controller: ModalInstanceCtrl,
                     resolve: {
+                        title: function(){
+                            return "Change Me!";
+                        },
                         glossary: function () {
-                            return glossaryId === 0 ? {} :
-                                //todo as example
-                            {
-                                id : glossaryId,
-                                name : "dummy"
-                            };
+                            return glossary;
                         }
                     }
                 });
 
                 modalInstance.result.then(function (glossary) {
-                    //todo save
-                    alert('save');
+                    Glossary.save(glossary,
+                        function(){
+                            $scope.tableParams.reload();
+                        }
+                    );
                 });
-            };
-
-            $scope.remove = function (glossaryId, confirmationMessage) {
-
-                if (confirm(confirmationMessage)){
-                    //todo remove
-                    alert('remove');
-                }
             };
 
             var ModalInstanceCtrl = function ($scope, $modalInstance, glossary) {
@@ -84,7 +99,7 @@ define([
                 $scope.glossary = glossary;
 
                 $scope.ok = function () {
-                    $modalInstance.close(glossary);
+                    $modalInstance.close($scope.glossary);
                 };
 
                 $scope.cancel = function () {
