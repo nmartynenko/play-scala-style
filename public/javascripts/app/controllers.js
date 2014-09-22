@@ -17,6 +17,7 @@ define([
         'glossariesApp.services'
     ])
         .controller('GlossariesCtrl', function ($scope, $timeout, Glossary, ngTableParams, $modal) {
+            //configure ng-table
             $scope.tableParams = new ngTableParams({
                 page: 1,            // show first page
                 count: 3,           // count per page
@@ -49,18 +50,21 @@ define([
                 }
             });
 
-            $scope.edit = function (glossaryId) {
+            //CRUD actions
+            $scope.edit = function (title, glossaryId) {
                 Glossary.get(
                     {id: glossaryId},
-                    openModal
+                    function(data){
+                        openModal(title, data);
+                    }
                 );
             };
 
-            $scope.add = function(){
-                openModal({});
+            $scope.add = function(title){
+                openModal(title);
             };
 
-            $scope.remove = function (glossaryId, confirmationMessage) {
+            $scope.remove = function (confirmationMessage, glossaryId) {
                 if (confirm(confirmationMessage)){
                     Glossary.remove(
                         {id: glossaryId},
@@ -71,16 +75,18 @@ define([
                 }
             };
 
-            var openModal = function(glossary){
+            //Modal settings
+            var openModal = function(title, glossary){
                 var modalInstance = $modal.open({
                     templateUrl: 'editGlossaryForm.html',
                     controller: ModalInstanceCtrl,
+                    scope: $scope,
                     resolve: {
                         title: function(){
-                            return "Change Me!";
+                            return title;
                         },
                         glossary: function () {
-                            return glossary;
+                            return glossary || {};
                         }
                     }
                 });
@@ -94,11 +100,13 @@ define([
                 });
             };
 
-            var ModalInstanceCtrl = function ($scope, $modalInstance, glossary) {
+            var ModalInstanceCtrl = function ($scope, $modalInstance, title, glossary) {
 
+                $scope.title = title;
                 $scope.glossary = glossary;
 
                 $scope.ok = function () {
+                    //TODO figure out what is wrong with scope's binding
                     $modalInstance.close($scope.glossary);
                 };
 
