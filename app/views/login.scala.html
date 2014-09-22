@@ -1,10 +1,9 @@
 @(form: Form[(String,String)])(implicit flash: Flash, request: Request[_], lang: Lang)
 
 <html>
-    <head>
-        <title>@Messages("sample.message.login.title")</title>
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-    </head>
+
+    @header(Messages("sample.message.login.title"))
+
     <body>
 
         @helper.form(routes.LoginController.authenticate) {

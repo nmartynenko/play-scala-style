@@ -23,21 +23,19 @@
 
     <div id="content">
 
-        <div id="dialog"></div>
-
-        <table id="jqTable">
-            <thead>
-                <tr>
-                    <th>@Messages("sample.message.id")</th>
-                    <th>@Messages("sample.message.name")</th>
-                    <th>@Messages("sample.message.description")</th>
-                    @restrict(handler, List(as("admin"))) {
-                        <th>@Messages("sample.message.actions")</th>
-                    }
+        <div ng-controller="GlossariesCtrl">
+            <table ng-table="tableParams" show-filter="true" class="table">
+                <tr ng-repeat="glossary in $data">
+                    <td data-title="'@Messages("sample.message.name")'" filter="{ 'name' : 'text' }" sortable="'name'">
+                {{glossary.name}}
+                    </td>
+                    <td data-title="'@Messages("sample.message.description")'" sortable="'description'">
+                {{glossary.description}}
+                    </td>
                 </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+            </table>
+        </div>
+
 
         @restrict(handler, List(as("admin"))) {
             <div>
@@ -47,4 +45,6 @@
 
     </div>
 
+        <!--Load JS-->
+    <script type="text/javascript" data-main="@routes.Assets.at("javascripts/app/main")" src="@routes.Assets.at("javascripts/bower_components/requirejs/require.js")"></script>
 </body>

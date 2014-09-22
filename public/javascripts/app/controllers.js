@@ -5,16 +5,11 @@
 define(['angular', 'jquery', 'services'], function (angular, $) {
 
     return angular.module('glossariesApp.controllers', ['glossariesApp.services'])
-        .controller('PeopleCtrl', function ($scope, $filter, People, ngTableParams) {
-            People.query(function(people) {
+        .controller('GlossariesCtrl', function ($scope, $filter, Glossaries, ngTableParams) {
+            Glossaries.query(function(glossaries) {
 
                 //convert result in more convenient one
-                var data = $.map(people.people, function(value){
-                    return $.extend({}, value.person, {
-                        //add extra field, called 'name'
-                        name : value.person.firstName + ' ' + value.person.lastName
-                    });
-                });
+                var data = glossaries.content;
 
                 $scope.tableParams = new ngTableParams({
                     page: 1,            // show first page

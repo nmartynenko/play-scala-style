@@ -1,0 +1,8 @@
+@import url(http://fonts.googleapis.com/css?family=Droid+Sans:400,700);
+@import url(../javascripts/bower_components/bootstrap/dist/css/bootstrap.min.css);
+@import url(../javascripts/bower_components/bootstrap/dist/css/bootstrap-theme.min.css);
+@import url(../javascripts/bower_components/ng-table/ng-table.min.css);
+
+.ng-table {
+    border: 1px solid #000;
+}
