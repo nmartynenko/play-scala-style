@@ -52,12 +52,23 @@ libraryDependencies ++= Seq(
 
 lazy val scala_style = (project in file(".")).enablePlugins(PlayScala)
 
+//Task's definitions
+
 lazy val karma = taskKey[Unit]("Runs Karma tests")
 
 karma := {
   import sbt.Process._
-  val statusCode = "karma start conf/karma.conf.js".!
+  val statusCode =
+    //Windows OS
+    if(sys.props.get("file.separator").forall(_ == "\\"))
+      "cmd /c karma start conf/karma.conf.js".!
+    else
+      "karma start conf/karma.conf.js".!
   if (statusCode != 0){
     sys.exit(statusCode)
   }
 }
+
+lazy val testAll = taskKey[Unit]("Runs both Scala specs and Karma tests")
+
+testAll <<= karma.dependsOn(test in Test)
