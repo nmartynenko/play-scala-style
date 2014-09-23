@@ -56,5 +56,8 @@ lazy val karma = taskKey[Unit]("Runs Karma tests")
 
 karma := {
   import sbt.Process._
-  "karma start conf/karma.conf.js".!
+  val statusCode = "karma start conf/karma.conf.js".!
+  if (statusCode != 0){
+    sys.exit(statusCode)
+  }
 }

@@ -1,0 +1,19 @@
+{
+    "content": [
+        {
+            "id": 1,
+            "name": "Glossary 1",
+            "description": "Glossary 1 Description"
+        },
+        {
+            "id": 2,
+            "name": "Glossary 2",
+            "description": "Glossary 2 Description"
+        },
+        {
+            "id": 3,
+            "name": "Glossary 3",
+            "description": "Glossary 3 Description"
+        }
+    ], "startRow": 0, "pageSize": 3, "totalElements": 3
+}

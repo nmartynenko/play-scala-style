@@ -5,8 +5,9 @@ jdk:
 scala:
 - 2.10.4
 - 2.11.2
-sbt_args: -J-XX:+CMSClassUnloadingEnabled -J-XX:+UseConcMarkSweepGC
+script:
+- sbt ++$TRAVIS_SCALA_VERSION -J-XX:+CMSClassUnloadingEnabled -J-XX:+UseConcMarkSweepGC test karma
 before_install:
-  - npm install -g karma-cli bower
-  - npm install
-  - bower install
+- npm install -g karma-cli bower
+- npm install
+- bower install
