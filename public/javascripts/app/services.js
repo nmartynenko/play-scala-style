@@ -7,9 +7,9 @@ define([
 	angular.module('glossariesApp.services', ['ngResource'])
 		.factory('Glossary', function($resource){
             return $resource('/glossaries/:id', {}, {
-                query : {method: 'get', isArray: false},
-                save : {method: 'post'},
-                update : {method: 'put'}
+                query : {method: 'GET', isArray: false},
+                save : {method: 'PUT'},
+                update : {method: 'POST'}
             });
   		});
 });

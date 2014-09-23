@@ -26,6 +26,7 @@ sample.message.add=Добавить
 sample.message.edit=Изменить
 sample.message.save=Сохранить
 sample.message.delete=Удалить
+sample.message.cancel=Отменить
 
 #JS messages
 sample.js.message.confirm.deleting=Вы действительно хотите удалить эту запись?

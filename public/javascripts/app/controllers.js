@@ -71,6 +71,7 @@ define([
                         function () {
                             $scope.tableParams.reload();
                         }
+                        //TODO error handling
                     );
                 }
             };
@@ -80,7 +81,6 @@ define([
                 var modalInstance = $modal.open({
                     templateUrl: 'editGlossaryForm.html',
                     controller: ModalInstanceCtrl,
-                    scope: $scope,
                     resolve: {
                         title: function(){
                             return title;
@@ -91,12 +91,8 @@ define([
                     }
                 });
 
-                modalInstance.result.then(function (glossary) {
-                    Glossary.save(glossary,
-                        function(){
-                            $scope.tableParams.reload();
-                        }
-                    );
+                modalInstance.result.then(function () {
+                    $scope.tableParams.reload();
                 });
             };
 
@@ -106,8 +102,24 @@ define([
                 $scope.glossary = glossary;
 
                 $scope.ok = function () {
-                    //TODO figure out what is wrong with scope's binding
-                    $modalInstance.close($scope.glossary);
+                    var g = $scope.glossary,
+                        $action;
+
+                    if (g.id){
+                        $action = Glossary.update(g);
+                    } else {
+                        $action = Glossary.save(g);
+                    }
+
+                    $action.$promise.then(
+                        function(){
+                            $modalInstance.close($scope.glossary);
+                        },
+                        function(){
+                            //TODO error handling
+                        }
+                    );
+
                 };
 
                 $scope.cancel = function () {

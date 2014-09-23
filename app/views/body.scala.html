@@ -32,10 +32,13 @@
                     <td data-title="'@Messages("sample.message.description")'">
                         {{glossary.description}}
                     </td>
-                    <td data-title="'@Messages("sample.message.actions")'">
-                        <a href="#" ng-click="edit('@Messages("sample.message.edit")', glossary.id)">@Messages("sample.message.edit")</a>
-                        <a href="#" ng-click="remove('@Messages("sample.js.message.confirm.deleting")', glossary.id)">@Messages("sample.message.delete")</a>
-                    </td>
+
+                    @restrict(handler, List(as("admin"))) {
+                        <td data-title="'@Messages("sample.message.actions")'">
+                            <a href="#" ng-click="edit('@Messages("sample.message.edit")', glossary.id)">@Messages("sample.message.edit")</a>
+                            <a href="#" ng-click="remove('@Messages("sample.js.message.confirm.deleting")', glossary.id)">@Messages("sample.message.delete")</a>
+                        </td>
+                    }
                 </tr>
             </table>
         </div>
@@ -45,9 +48,9 @@
             <div>
                 <input type="button" value="@Messages("sample.message.add")"  ng-click="add('@Messages("sample.message.add")')">
             </div>
-        }
 
-        @edit(handler)
+            @edit(handler)
+        }
 
     </div>
 

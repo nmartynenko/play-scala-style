@@ -26,6 +26,7 @@ sample.message.add=Add
 sample.message.edit=Edit
 sample.message.save=Save
 sample.message.delete=Delete
+sample.message.cancel=Cancel
 
 #JS messages
 sample.js.message.confirm.deleting=Do you really want to remove this item?

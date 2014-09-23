@@ -5,18 +5,18 @@
         <h3 class="modal-title">{{title}}</h3>
     </div>
     <div class="modal-body">
-        <input type="hidden" name="id" value="{{glossary.id}}">
+        <input type="hidden" ng-model="glossary.id">
         <div>
             <label for="name">
                 @Messages("sample.message.name")
             </label>
-            <input type="text" id="name" name="name" value="{{glossary.name}}" class="required">
+            <input type="text" ng-model="glossary.name" required>
         </div>
         <div>
             <label for="name">
                 @Messages("sample.message.description")
             </label>
-            <input type="text" id="description" name="description" value="{{glossary.description}}" class="required">
+            <input type="text" id="description" ng-model="glossary.description" required>
         </div>
 
         <div>
