@@ -11,6 +11,7 @@ object ApplicationBuild extends Build {
   val appVersion = "2.0.0"
 
   val appResolvers = Seq(
+    "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/",
     "Sonatype" at "http://search.maven.org/remotecontent?filepath=",
     Resolver.url("Objectify Play Repository", url("http://schaloner.github.io/releases/"))(Resolver.ivyStylePatterns),
     Resolver.url("Objectify Play Snapshot Repository", url("http://schaloner.github.io/snapshots/"))(Resolver.ivyStylePatterns)
