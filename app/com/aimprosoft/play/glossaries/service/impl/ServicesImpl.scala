@@ -22,7 +22,7 @@ trait SlickTransactional {
 trait BaseCrudServiceImpl[T <: {val id: Option[ID]}, ID] extends BaseCrudService[T, ID]
   with SlickTransactional{
 
-  def persistence: Persistence[T, ID]
+  protected def persistence: Persistence[T, ID]
 
   def getCurrentPage(startRow: Int = 0, pageSize: Int = -1): PageResponse[T] = readOnly {
     implicit session: Session => {
@@ -92,13 +92,13 @@ trait BaseCrudServiceImpl[T <: {val id: Option[ID]}, ID] extends BaseCrudService
 
 class GlossaryServiceImpl extends GlossaryService
   with BaseCrudServiceImpl[Glossary, Long] {
-  def persistence = GlossaryPersistence
+  protected def persistence = GlossaryPersistence
 }
 
 class UserServiceImpl extends UserService
   with BaseCrudServiceImpl[User, Long] {
 
-  def persistence = UserPersistence
+  protected def persistence = UserPersistence
 
   override def add(user: User): Unit = {
     //hash plain text password

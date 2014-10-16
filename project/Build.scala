@@ -65,9 +65,9 @@ object ApplicationBuild extends Build {
 
   //Task's definitions
 
-  val karma = taskKey[Unit]("Runs Karma tests")
+  lazy val karma = taskKey[Unit]("Runs Karma tests")
 
-  val karmaTask = karma := {
+  lazy val karmaTask = karma := {
     import sbt.Process._
     val statusCode =
     //Windows OS
@@ -80,8 +80,8 @@ object ApplicationBuild extends Build {
     }
   }
 
-  val testAll = taskKey[Unit]("Runs both Scala specs and Karma tests")
+  lazy val testAll = taskKey[Unit]("Runs both Scala specs and Karma tests")
 
-  val testAllTask = testAll <<= karma.dependsOn(test in Test)
+  lazy val testAllTask = testAll <<= karma.dependsOn(test in Test)
 
 }

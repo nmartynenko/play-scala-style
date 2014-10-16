@@ -13,8 +13,8 @@ object LoginController extends SecuredController {
   //define login form
   val loginForm = Form(
     tuple(
-      "j_username" -> text,
-      "j_password" -> text
+      "j_username" -> nonEmptyText,
+      "j_password" -> text //can be empty
     ) verifying (error = "Invalid email or password", constraint = {
       case (username, password) =>
         check(username, password)
@@ -24,16 +24,15 @@ object LoginController extends SecuredController {
   )
 
   private def check(username: String, password: String) = {
-    val auth = SecurityUserService.authenticate(username, password)
+    val maybeAuth = SecurityUserService.authenticate(username, password)
 
-    if (auth.isEmpty) false
-    else {
+    maybeAuth.fold(false) { auth =>
       val identifier = GlossaryUserSubject.generateIdentifier(username)
 
       Logger.debug(s"Put value $identifier for $username")
 
       //put auth in the session
-      Cache.set(identifier, auth.get)
+      Cache.set(identifier, auth)
 
       true
     }
@@ -49,11 +48,11 @@ object LoginController extends SecuredController {
   def authenticate = notAuthenticated {
     Action { implicit request =>
       loginForm.bindFromRequest.fold(
-        formWithErrors =>
-          BadRequest(views.html.login(formWithErrors)),
-
-        form =>
-          HOME.withSession(Security.username -> GlossaryUserSubject.generateIdentifier(form._1))
+        hasErrors = {form => BadRequest(views.html.login(form))},
+        success = {
+          case (username, _) =>
+            HOME.withSession(Security.username -> GlossaryUserSubject.generateIdentifier(username))
+        }
       )
     }
   }

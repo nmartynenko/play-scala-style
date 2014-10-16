@@ -2,7 +2,7 @@ package com.aimprosoft.play.glossaries.security
 
 import be.objectify.deadbolt.core.models.Role
 
-class SimpleRole(name: String) extends Role {
+sealed class SimpleRole(name: String) extends Role {
   def getName: String = name
 
   override def toString: String = getName

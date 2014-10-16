@@ -48,7 +48,7 @@ object GlossariesRestController extends SecuredController {
     }
   }
 
-  def updateGlossary() = asAdmin {
+  def updateGlossary = asAdmin {
     saveUpdate {GlossaryService.update}
   }
 
@@ -56,7 +56,7 @@ object GlossariesRestController extends SecuredController {
     saveUpdate {GlossaryService.add}
   }
 
-  private def saveUpdate(action: Glossary => Unit) = Action(parse.json) {
+  private def saveUpdate[Ignore](action: Glossary => Ignore) = Action(parse.json) {
     implicit request =>
       request.body.validate[Glossary] match {
         case JsSuccess(glossary, _) =>
@@ -69,8 +69,6 @@ object GlossariesRestController extends SecuredController {
       }
   }
 
-  //use dot method call just as Martin Odersky recommends
-  //https://twitter.com/odersky/status/49882758968905728
   private def handleErrors(errors: Seq[(JsPath, Seq[ValidationError])])(implicit lang: Lang): Map[String, Seq[String]] = {
     (errors map {
       case (jsPath, validationErrors) =>
@@ -80,7 +78,7 @@ object GlossariesRestController extends SecuredController {
         }
 
         //return tuple, which naturally transforms into map
-        (key, value)
+        key -> value
     }).toMap
   }
 
