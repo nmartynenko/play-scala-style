@@ -8,7 +8,7 @@
  inject: false */
 
 'use strict';
-define(['app', 'jquery', 'text!/base/test-js/fixtures/glossaries.json', 'angularMocks'], function(app, $, data) {
+define(['app', 'jquery', 'text!/base/test/javascript/fixtures/glossaries.json', 'angularMocks'], function(app, $, data) {
 
     describe('Application', function () {
         it('should contain jQuery global object', function () {

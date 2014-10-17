@@ -10,15 +10,15 @@ module.exports = function (config) {
             {pattern: 'public/javascripts/app/*.js', included: false},
             {pattern: 'public/javascripts/app/**/*.js', included: false},
             //test specs
-            {pattern: 'test-js/**/*spec.js', included: false},
+            {pattern: 'test/javascript/**/*spec.js', included: false},
             {
-                pattern: 'test-js/fixtures/**/*.json',
+                pattern: 'test/javascript/fixtures/**/*.json',
                 included: false,
                 watched: true,
                 served: true
             },
             // needs to be last http://karma-runner.github.io/0.12/plus/requirejs.html
-            'test-js/main-test.js'
+            'test/javascript/main-test.js'
         ],
 
         // list of files to exclude

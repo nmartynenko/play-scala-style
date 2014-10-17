@@ -56,6 +56,8 @@ object ApplicationBuild extends Build {
       scalacOptions ++= defaultScalacOptions,
       resolvers := appResolvers,
       libraryDependencies ++= appDependencies,
+      scalaSource in Test <<= baseDirectory(_ / "test/scala"),
+      javaSource in Test <<= baseDirectory(_ / "test/java"),
       //register tasks
       karmaTask, testAllTask
     ).
@@ -71,10 +73,9 @@ object ApplicationBuild extends Build {
     import sbt.Process._
     val statusCode =
     //Windows OS
-      if(sys.props.get("file.separator").forall(_ == "\\"))
-        "cmd /c karma start conf/karma.conf.js".!
-      else
-        "karma start conf/karma.conf.js".!
+      (sys.props.get("file.separator").filter(_ == "\\").map(_ => "cmd /c ").getOrElse("") +
+
+        "karma start conf/karma.conf.js").!
     if (statusCode != 0){
       sys.exit(statusCode)
     }

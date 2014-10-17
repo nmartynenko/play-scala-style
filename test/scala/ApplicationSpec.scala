@@ -2,16 +2,15 @@ import com.aimprosoft.play.glossaries.domain.GlossaryPageResponse
 import com.aimprosoft.play.glossaries.models.{Glossary, User}
 import com.aimprosoft.play.glossaries.security.GlossaryUserSubject
 import com.aimprosoft.play.glossaries.service.GlossaryService
+import org.junit.runner._
 import org.specs2.mutable._
 import org.specs2.runner._
-import org.junit.runner._
-
 import play.api.cache.Cache
 import play.api.http.HeaderNames
-import play.api.libs.json.{Json, JsObject}
+import play.api.libs.json.{JsObject, Json}
 import play.api.mvc.Security
-import play.api.test._
 import play.api.test.Helpers._
+import play.api.test._
 
 /**
  * Add your spec here.
