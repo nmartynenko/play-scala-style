@@ -44,7 +44,7 @@ trait BaseCrudServiceImpl[T <: {val id: Option[ID]}, ID] extends BaseCrudService
       //adjust page size
       val ps = if (pageSize > 0) pageSize else te
 
-      new PageResponse(content, sr, ps, te)
+      PageResponse(content, sr, ps, te)
     }
   }
 

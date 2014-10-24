@@ -1,5 +1,5 @@
-import com.aimprosoft.play.glossaries.domain.GlossaryPageResponse
-import com.aimprosoft.play.glossaries.models.{Glossary, User}
+import com.aimprosoft.play.glossaries.domain.PageResponse
+import com.aimprosoft.play.glossaries.models._
 import com.aimprosoft.play.glossaries.security.GlossaryUserSubject
 import com.aimprosoft.play.glossaries.service.GlossaryService
 import org.junit.runner._
@@ -20,8 +20,7 @@ import play.api.test._
 @RunWith(classOf[JUnitRunner])
 class ApplicationSpec extends Specification {
 
-  implicit def gf = controllers.GlossariesRestController.gf
-  implicit def gpf = controllers.GlossariesRestController.gpf
+  import JsonFormatImplicits._
 
   "Application" should {
 
@@ -146,7 +145,7 @@ class ApplicationSpec extends Specification {
           contentType(glossariesPage) must beSome.which(_ == "application/json")
 
           val response = contentAsJson(glossariesPage).
-            as[GlossaryPageResponse]
+            as[PageResponse[Glossary]]
           //there is no pagination
           response.content must haveLength(response.totalElements)
       }

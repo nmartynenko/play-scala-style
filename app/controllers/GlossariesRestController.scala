@@ -1,8 +1,7 @@
 package controllers
 
-import com.aimprosoft.play.glossaries.domain.GlossaryPageResponse
-import com.aimprosoft.play.glossaries.models.Glossary
-import com.aimprosoft.play.glossaries.service.GlossaryService
+import com.aimprosoft.play.glossaries.models._
+import com.aimprosoft.play.glossaries.service.{GlossaryService => service}
 import play.api.data.validation.ValidationError
 import play.api.http.ContentTypes
 import play.api.i18n.{Lang, Messages}
@@ -11,28 +10,20 @@ import play.api.mvc._
 
 object GlossariesRestController extends SecuredController {
 
-  implicit val gf = Json.format[Glossary]
-  implicit val gpf = Json.format[GlossaryPageResponse]
+  import JsonFormatImplicits._
 
   def getGlossaries(startRow: Int, pageSize: Int) = authenticated {
     Action {
       //get generic page
-      val page = GlossaryService.getCurrentPage(startRow, pageSize)
-      //convert into concrete response page
-      val glossariesPage = GlossaryPageResponse(
-        content = page.content,
-        startRow = page.startRow,
-        pageSize = page.pageSize,
-        totalElements = page.totalElements
-      )
+      val page = service.getCurrentPage(startRow, pageSize)
 
-      Ok(Json.toJson(glossariesPage)).as(ContentTypes.JSON)
+      Ok(Json.toJson(page)).as(ContentTypes.JSON)
     }
   }
 
   def getGlossary(id: Long) = authenticated {
     Action {
-      GlossaryService.getById(id) map {glossary =>
+      service.getById(id) map {glossary =>
           Ok(Json.toJson(glossary)).as(ContentTypes.JSON)
       } getOrElse {
         BadRequest(Messages("sample.error.glossary.not.found", id))
@@ -42,18 +33,18 @@ object GlossariesRestController extends SecuredController {
 
   def removeGlossary(glossaryId: Long) =  asAdmin {
     Action {
-      GlossaryService.removeById(glossaryId)
+      service.removeById(glossaryId)
 
       Ok
     }
   }
 
   def updateGlossary = asAdmin {
-    saveUpdate {GlossaryService.update}
+    saveUpdate {service.update}
   }
 
   def saveGlossary = asAdmin {
-    saveUpdate {GlossaryService.add}
+    saveUpdate {service.add}
   }
 
   private def saveUpdate[Ignore](action: Glossary => Ignore) = Action(parse.json) {
