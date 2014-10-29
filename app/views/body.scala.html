@@ -2,13 +2,14 @@
 
 @import be.objectify.deadbolt.scala.views.html._
 @import be.objectify.deadbolt.core.utils.TemplateUtils._
+@import com.aimprosoft.play.glossaries.util.TemplateUtils._
 
 <body>
     <div id="header">
         <div>
             <span class="userGreeting">
                 @Messages("sample.message.welcome")
-                @handler.getSubject(request).map(_.toString).getOrElse("Great Hacker!")
+                @getSubjectImmediately(handler).map(_.toString).getOrElse("Great Hacker!")
             </span>
             <a href="/logout">@Messages("sample.message.logout")</a>
         </div>

@@ -3,6 +3,7 @@ import com.aimprosoft.play.glossaries.models._
 import com.aimprosoft.play.glossaries.security.GlossaryUserSubject
 import com.aimprosoft.play.glossaries.service.GlossaryService
 import org.junit.runner._
+import org.specs2.execute.{AsResult, Result}
 import org.specs2.mutable._
 import org.specs2.runner._
 import play.api.cache.Cache
@@ -52,8 +53,7 @@ class ApplicationSpec extends Specification {
       val content: String = contentAsString(loginUrl)
 
       Seq("form", "j_username", "j_password", "submit") foreach {
-        term =>
-          content must contain(term)
+        content must contain(_)
       }
     }
 
@@ -102,15 +102,16 @@ class ApplicationSpec extends Specification {
       }
     }
 
-    def authenticateAllUsers(implicit app: FakeApplication): Unit = forAllUsers {
-      (username, subject) =>
-        Cache.set(username, subject)
-    }
+    class WithAuthApplication extends WithApplication {
+      override def around[T: AsResult](t: => T): Result = {
+        //authenticate all users
+        forAllUsers {Cache.set(_, _)}
+        //implement block
+        super.around(t)
+      }
+    } 
 
-    "show the index page for all roles" in new WithApplication {
-      //be authenticated
-      authenticateAllUsers
-
+    "show the index page for all roles" in new WithAuthApplication {
       forAllUsers {
         (username, subject) =>
           //make sure that cache has actual data
@@ -127,10 +128,7 @@ class ApplicationSpec extends Specification {
       }
     }
 
-    "return all glossaries for all users" in new WithApplication {
-      //be authenticated
-      authenticateAllUsers
-
+    "return all glossaries for all users" in new WithAuthApplication {
       forAllUsers {
         (username, subject) =>
           //make sure that cache has actual data
@@ -151,10 +149,7 @@ class ApplicationSpec extends Specification {
       }
     }
 
-    "return particular glossary for all users" in new WithApplication {
-      //be authenticated
-      authenticateAllUsers
-
+    "return particular glossary for all users" in new WithAuthApplication {
       forAllUsers {
         (username, subject) =>
           //make sure that cache has actual data
@@ -176,10 +171,7 @@ class ApplicationSpec extends Specification {
       }
     }
 
-    "reject removal of particular glossary for regular users" in new WithApplication {
-      //be authenticated
-      authenticateAllUsers
-
+    "reject removal of particular glossary for regular users" in new WithAuthApplication {
       //make sure that cache has actual data
       Cache.get(userUsername) must beSome(userSubject)
 
@@ -199,10 +191,7 @@ class ApplicationSpec extends Specification {
       GlossaryService.exists(id) must beTrue
     }
 
-    "allow removal of particular glossary for admin users" in new WithApplication {
-      //be authenticated
-      authenticateAllUsers
-
+    "allow removal of particular glossary for admin users" in new WithAuthApplication {
       //make sure that cache has actual data
       Cache.get(adminUsername) must beSome(adminSubject)
 
@@ -222,10 +211,7 @@ class ApplicationSpec extends Specification {
       GlossaryService.exists(id) must beFalse
     }
 
-    "reject adding of particular glossary for regular users" in new WithApplication {
-      //be authenticated
-      authenticateAllUsers
-
+    "reject adding of particular glossary for regular users" in new WithAuthApplication {
       //make sure that cache has actual data
       Cache.get(userUsername) must beSome(userSubject)
 
@@ -246,10 +232,7 @@ class ApplicationSpec extends Specification {
       GlossaryService.count must equalTo(initialCount)
     }
 
-    "allow adding of particular glossary for admin users with no glossary's ID" in new WithApplication {
-      //be authenticated
-      authenticateAllUsers
-
+    "allow adding of particular glossary for admin users with no glossary's ID" in new WithAuthApplication {
       //make sure that cache has actual data
       Cache.get(adminUsername) must beSome(adminSubject)
 
@@ -270,10 +253,7 @@ class ApplicationSpec extends Specification {
       GlossaryService.count must equalTo(initialCount + 1)
     }
 
-    "allow adding of particular glossary for admin users with no predefined ID" in new WithApplication {
-      //be authenticated
-      authenticateAllUsers
-
+    "allow adding of particular glossary for admin users with no predefined ID" in new WithAuthApplication {
       //make sure that cache has actual data
       Cache.get(adminUsername) must beSome(adminSubject)
 
@@ -302,10 +282,7 @@ class ApplicationSpec extends Specification {
       GlossaryService.count must equalTo(initialCount + 1)
     }
 
-    "reject updating of particular glossary for regular users" in new WithApplication {
-      //be authenticated
-      authenticateAllUsers
-
+    "reject updating of particular glossary for regular users" in new WithAuthApplication {
       //make sure that cache has actual data
       Cache.get(userUsername) must beSome(userSubject)
 
@@ -335,10 +312,7 @@ class ApplicationSpec extends Specification {
       GlossaryService.getById(id).get must equalTo(dbGlossary)
     }
 
-    "allow updating of particular glossary for admin users with valid id" in new WithApplication {
-      //be authenticated
-      authenticateAllUsers
-
+    "allow updating of particular glossary for admin users with valid id" in new WithAuthApplication {
       //make sure that cache has actual data
       Cache.get(adminUsername) must beSome(adminSubject)
 
@@ -368,10 +342,7 @@ class ApplicationSpec extends Specification {
       GlossaryService.getById(id).get must equalTo(newGlossary)
     }
 
-    "reject updating of particular glossary for admin users with invalid id" in new WithApplication {
-      //be authenticated
-      authenticateAllUsers
-
+    "reject updating of particular glossary for admin users with invalid id" in new WithAuthApplication {
       //make sure that cache has actual data
       Cache.get(adminUsername) must beSome(adminSubject)
 
@@ -401,10 +372,7 @@ class ApplicationSpec extends Specification {
       GlossaryService.count must beEqualTo(dbCount)
     }
 
-    "logout page should redirect to login page" in new WithApplication {
-      //be authenticated
-      authenticateAllUsers
-
+    "logout page should redirect to login page" in new WithAuthApplication {
       forAllUsers {
         (username, subject) =>
           //make sure that cache has actual data

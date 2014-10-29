@@ -12,9 +12,7 @@ object ApplicationBuild extends Build {
 
   val appResolvers = Seq(
     "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/",
-    "Sonatype" at "http://search.maven.org/remotecontent?filepath=",
-    Resolver.url("Objectify Play Repository", url("http://schaloner.github.io/releases/"))(Resolver.ivyStylePatterns),
-    Resolver.url("Objectify Play Snapshot Repository", url("http://schaloner.github.io/snapshots/"))(Resolver.ivyStylePatterns)
+    "Sonatype" at "http://search.maven.org/remotecontent?filepath="
   )
 
   val appDependencies = Seq(
@@ -25,7 +23,7 @@ object ApplicationBuild extends Build {
     "com.typesafe.play" %% "play-slick" % "0.8.0",
     "org.hsqldb" % "hsqldb" % "2.3.2",
     //security
-    "be.objectify" %% "deadbolt-scala" % "2.3.1",
+    "be.objectify" %% "deadbolt-scala" % "2.3.2",
     "org.mindrot" % "jbcrypt" % "0.3m",
     //enable JDBC module for the project
     jdbc,
