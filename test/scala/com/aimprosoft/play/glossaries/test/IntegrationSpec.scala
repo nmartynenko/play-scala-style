@@ -1,3 +1,5 @@
+package com.aimprosoft.play.glossaries.test
+
 import org.junit.runner._
 import org.openqa.selenium.htmlunit.HtmlUnitDriver
 import org.specs2.mutable._

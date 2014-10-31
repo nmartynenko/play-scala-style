@@ -30,7 +30,7 @@ object ApplicationBuild extends Build {
     cache
   )
 
-  val defaultScalaVersion = "2.11.2"
+  val defaultScalaVersion = "2.11.4"
 
   val appCrossScalaVersions = Seq("2.10.4", defaultScalaVersion)
 

@@ -1,3 +1,5 @@
+package com.aimprosoft.play.glossaries.test
+
 import com.aimprosoft.play.glossaries.domain.PageResponse
 import com.aimprosoft.play.glossaries.models._
 import com.aimprosoft.play.glossaries.security.GlossaryUserSubject
@@ -21,7 +23,7 @@ import play.api.test._
 @RunWith(classOf[JUnitRunner])
 class ApplicationSpec extends Specification {
 
-  import JsonFormatImplicits._
+  import com.aimprosoft.play.glossaries.models.JsonFormatImplicits._
 
   "Application" should {
 

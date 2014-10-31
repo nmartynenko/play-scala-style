@@ -4,7 +4,7 @@ jdk:
 - oraclejdk8
 scala:
 - 2.10.4
-- 2.11.2
+- 2.11.4
 script:
 - sbt ++$TRAVIS_SCALA_VERSION -J-XX:+CMSClassUnloadingEnabled -J-XX:+UseConcMarkSweepGC testAll
 before_install:

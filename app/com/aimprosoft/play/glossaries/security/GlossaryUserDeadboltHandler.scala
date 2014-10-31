@@ -41,7 +41,7 @@ object SubjectPresentGlossaryUserDeadboltHandler extends GlossaryUserDeadboltHan
   private val redirect: Result = Redirect("/login.html")
 
   def beforeAuthCheck[A](request: Request[A]): Option[Future[Result]] = {
-  val subject = getSubjectImmediately(this)(request)
+    val subject = getSubjectImmediately(this)(request)
     //do nothing, if subject is defined
     if (subject.isDefined) {
       None
