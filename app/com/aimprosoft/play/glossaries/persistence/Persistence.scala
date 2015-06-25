@@ -14,12 +14,11 @@ trait Persistence[T <: {def id: Option[ID]}, ID] {
 
   def insert(entity: T)(implicit session: JdbcBackend#Session): ID
 
-  def insertAll(entities: Seq[T])(implicit session: JdbcBackend#Session): Unit
+  def insertAll(entities: T*)(implicit session: JdbcBackend#Session): Unit
 
   def update(entity: T)(implicit session: JdbcBackend#Session): Unit
 
-  def delete(id: ID)(implicit session: JdbcBackend#Session): Unit
+  def delete(id: ID)(implicit session: JdbcBackend#Session): Boolean
 
   def count(implicit session: JdbcBackend#Session): Int
 }
-

@@ -17,7 +17,7 @@ object ApplicationBuild extends Build {
 
   val appDependencies = Seq(
     //test dependencies
-    "junit" % "junit" % "4.11" % "test",
+    "junit" % "junit" % "4.12" % "test",
     //runtime dependencies
     "com.typesafe.slick" %% "slick" % "2.1.0",
     "com.typesafe.play" %% "play-slick" % "0.8.0",

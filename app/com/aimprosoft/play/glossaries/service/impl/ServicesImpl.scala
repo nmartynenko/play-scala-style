@@ -9,6 +9,7 @@ import com.aimprosoft.play.glossaries.service._
 import org.mindrot.jbcrypt.BCrypt
 import play.api.Play.current
 import play.api.db.slick._
+
 import scala.language.reflectiveCalls
 
 trait SlickTransactional {
@@ -22,7 +23,7 @@ trait SlickTransactional {
 trait BaseCrudServiceImpl[T <: {val id: Option[ID]}, ID] extends BaseCrudService[T, ID]
   with SlickTransactional{
 
-  protected def persistence: Persistence[T, ID]
+  protected val persistence: Persistence[T, ID]
 
   def getCurrentPage(startRow: Int = 0, pageSize: Int = -1): PageResponse[T] = readOnly {
     implicit session: Session => {
@@ -74,16 +75,21 @@ trait BaseCrudServiceImpl[T <: {val id: Option[ID]}, ID] extends BaseCrudService
       persistence.insert(entity)
   }
 
+  def addAll(entities: T*): Unit = transactional {
+    implicit session: Session =>
+      persistence.insertAll(entities: _*)
+  }
+
   def update(entity: T): Unit = transactional {
     implicit session: Session =>
       persistence.update(entity)
   }
 
-  def remove(entity: T): Unit = entity.id foreach { id =>
+  def remove(entity: T): Boolean = entity.id exists { id =>
     removeById(id)
   }
 
-  def removeById(id: ID): Unit = transactional {
+  def removeById(id: ID): Boolean = transactional {
     implicit session: Session =>
       persistence.delete(id)
   }
@@ -92,13 +98,13 @@ trait BaseCrudServiceImpl[T <: {val id: Option[ID]}, ID] extends BaseCrudService
 
 class GlossaryServiceImpl extends GlossaryService
   with BaseCrudServiceImpl[Glossary, Long] {
-  protected def persistence = GlossaryPersistence
+  protected val persistence = GlossaryPersistence
 }
 
 class UserServiceImpl extends UserService
   with BaseCrudServiceImpl[User, Long] {
 
-  protected def persistence = UserPersistence
+  protected val persistence = UserPersistence
 
   override def add(user: User): Unit = {
     //hash plain text password

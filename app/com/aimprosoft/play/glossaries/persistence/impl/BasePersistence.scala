@@ -2,6 +2,7 @@ package com.aimprosoft.play.glossaries.persistence.impl
 
 import com.aimprosoft.play.glossaries.persistence.Persistence
 import play.api.db.slick.Config.driver.simple._
+
 import scala.language.reflectiveCalls
 
 //abstract table entity
@@ -19,7 +20,7 @@ abstract class SlickBasePersistence[T <: {val id: Option[ID]}, ID: BaseColumnTyp
   def byId(id: ID)(implicit session: Session): Query[_ <: SlickBaseTable[T, ID], T, Seq] = tableQuery.filter(_.id === id)
 
   def byId(idOpt: Option[ID])(implicit session: Session): Query[_ <: SlickBaseTable[T, ID], T, Seq] = {
-    idOpt map {id => byId(id)} getOrElse {
+    idOpt map byId getOrElse {
       throw new IllegalArgumentException("ID option should not be None")
     }
   }
@@ -53,16 +54,16 @@ abstract class SlickBasePersistence[T <: {val id: Option[ID]}, ID: BaseColumnTyp
     autoInc.insert(entity)
   }
 
-  def insertAll(entities: Seq[T])(implicit session: Session) {
+  def insertAll(entities: T*)(implicit session: Session): Unit =  {
     autoInc.insertAll(entities: _*)
   }
 
-  def update(entity: T)(implicit session: Session) {
+  def update(entity: T)(implicit session: Session): Unit = {
     byId(entity.id).update(entity)
   }
 
-  def delete(id: ID)(implicit session: Session) {
-    byId(id).delete
+  def delete(id: ID)(implicit session: Session): Boolean = {
+    byId(id).delete > 0
   }
 
   def count(implicit session: Session): Int = {

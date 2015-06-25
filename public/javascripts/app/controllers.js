@@ -64,16 +64,44 @@ define([
                 openModal(title);
             };
 
+            var defaultErrorHandler = function(error){
+                var message = error && error.data || "Unexpected error";
+                $scope.addAlert(message);
+            };
+
             $scope.remove = function (confirmationMessage, glossaryId) {
                 if (confirm(confirmationMessage)){
                     Glossary.remove(
                         {id: glossaryId},
                         function () {
                             $scope.tableParams.reload();
-                        }
-                        //TODO error handling
+                        },
+                        defaultErrorHandler
                     );
                 }
+            };
+
+            //Alert settings
+            $scope.alerts = [];
+
+            $scope.addMessage = function(type, message) {
+                $scope.alerts.push({
+                    type: type,
+                    msg: message
+                });
+
+                //autoclean of message
+                $timeout(function(){
+                    $scope.alerts = [];
+                }, 5000);
+            };
+
+            $scope.addAlert = function(message) {
+                $scope.addMessage('danger', message);
+            };
+
+            $scope.addSuccess = function(message) {
+                $scope.addMessage('success', message);
             };
 
             //Modal settings
@@ -115,9 +143,7 @@ define([
                         function(){
                             $modalInstance.close($scope.glossary);
                         },
-                        function(){
-                            //TODO error handling
-                        }
+                        defaultErrorHandler
                     );
 
                 };

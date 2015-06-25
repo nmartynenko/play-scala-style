@@ -31,11 +31,13 @@ object GlossariesRestController extends SecuredController {
     }
   }
 
-  def removeGlossary(glossaryId: Long) =  asAdmin {
+  def removeGlossary(id: Long) =  asAdmin {
     Action {
-      service.removeById(glossaryId)
-
-      Ok
+       if (service.removeById(id)) {
+         Ok
+       } else {
+         BadRequest(Messages("sample.error.glossary.remove", id))
+       }
     }
   }
 

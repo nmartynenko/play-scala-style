@@ -3,20 +3,23 @@
 # ~~~~
 
 #Login page
-GET        /login.html          controllers.LoginController.login
-GET        /logout              controllers.LoginController.logout
-POST       /login               controllers.LoginController.authenticate
+GET           /login.html            controllers.LoginController.login
+GET           /logout                controllers.LoginController.logout
+POST          /login                 controllers.LoginController.authenticate
 
 # Home page, needs authentication
-GET        /                    controllers.HtmlController.home
-GET        /index.html          controllers.HtmlController.index(lang: String ?= "en")
+GET           /                      controllers.HtmlController.home
+GET           /index.html            controllers.HtmlController.index(lang: String ?= "en")
 
 #Glossaries pages
-GET        /glossaries          controllers.GlossariesRestController.getGlossaries(startRow: Int ?= -1, pageSize: Int ?= -1)
-GET        /glossaries/:id      controllers.GlossariesRestController.getGlossary(id: Long)
-PUT        /glossaries          controllers.GlossariesRestController.saveGlossary
-POST       /glossaries          controllers.GlossariesRestController.updateGlossary
-DELETE     /glossaries/:id      controllers.GlossariesRestController.removeGlossary(id: Long)
+GET           /glossaries            controllers.GlossariesRestController.getGlossaries(startRow: Int ?= -1, pageSize: Int ?= -1)
+GET           /glossaries/:id        controllers.GlossariesRestController.getGlossary(id: Long)
+PUT           /glossaries            controllers.GlossariesRestController.saveGlossary
+POST          /glossaries            controllers.GlossariesRestController.updateGlossary
+DELETE        /glossaries/:id        controllers.GlossariesRestController.removeGlossary(id: Long)
+
+#Resources bundle
+GET           /messages              controllers.PublicRestController.messages
 
 # Map static resources from the /public folder to the /assets URL path
-GET        /assets/*file        controllers.Assets.at(path="/public", file)
+GET           /assets/*file          controllers.Assets.at(path="/public", file)

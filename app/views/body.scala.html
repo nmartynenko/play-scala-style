@@ -24,8 +24,12 @@
 
     <div id="content" ng-controller="GlossariesCtrl">
 
+        <div>
+            <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</alert>
+        </div>
+
         <div loading-container="tableParams.settings().$loading">
-            <table ng-table="tableParams" show-filter="false" class="table">
+            <table ng-table="tableParams" show-filter="false" class="table" ng-cloak>
                 <tr ng-repeat="glossary in $data">
                     <td data-title="'@Messages("sample.message.name")'" filter="{ 'name' : 'text' }">
                         {{glossary.name}}

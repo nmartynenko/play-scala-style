@@ -1,8 +1,9 @@
 #Error messages
 sample.error.unavailable=Ресурс недоступен
 sample.error.unexpected=Непредвиденная ошибка
-sample.error.wrong.credentials=Пожалуйста, проверте ваши лог/пароль
+sample.error.wrong.credentials=Пожалуйста, проверте ваши логин/пароль
 sample.error.glossary.not.found=Не найден словарь с ID = {0}
+sample.error.glossary.remove=Словарь с ID = {0} не был удален
 #Validation error messages
 sample.error.not.null=Поле {0} не должно быть пустым
 sample.error.not.empty=Поле {0} не должно быть незаполненным
